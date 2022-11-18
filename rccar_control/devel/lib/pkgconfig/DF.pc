@@ -1,0 +1,8 @@
+prefix=/home/bnlab/catkin_ws/devel
+
+Name: DF
+Description: Description of DF
+Version: 0.0.0
+Cflags: -I/home/bnlab/catkin_ws/devel/include -I/home/bnlab/catkin_ws/src/DF/include
+Libs: -L${prefix}/lib -lDF
+Requires: message_generation roscpp rospy std_msg

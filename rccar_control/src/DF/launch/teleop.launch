@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+	<node pkg="DF" name="rf_receiver" type="rf_receiver">
+	</node>
+	<node pkg="DF" name="racecar" type="racecar" output="screen">
+	</node>
+</launch>
+

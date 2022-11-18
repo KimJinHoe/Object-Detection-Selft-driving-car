@@ -1,0 +1,8 @@
+prefix=/home/bnlab/catkin_ws/devel
+
+Name: LF
+Description: Description of LF
+Version: 0.0.0
+Cflags: -I/home/bnlab/catkin_ws/devel/include -I/home/bnlab/catkin_ws/src/LF/include
+Libs: -L${prefix}/lib -lLF
+Requires: message_runtime message_generation roscpp std_msgs serial

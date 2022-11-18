@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset = "utf-8">
+		<title>구글지도 사용하기</title>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=<<Google API Key>>" ></script>
+		<style>
+			#map_ma {width:100%; height:1150px; clear:both; border:solid 1px blue;}
+		</style>
+		<h1>GPS 데이터 출력</h1>
+		<p>Latitude : <span id="gps_lat"></span>, Longitude : <span id="gps_lng"></span></p>
+		<input type="button" id="execute" value="실행" />
+		<input type="button" id="stop" value="중지" />
+	</head>
+	<body>
+		<div id="map_ma"></div>
+		<script type = "text/javascript">
+		var nowPoint_lat;
+		var nowPoint_lng;
+		
+		var timerID;	// get new data of latitude, longitude from udp_sever.php
+		var timerID2;	// set new marker on the map
+		
+		let markers = [];
+		
+		// Elements that make up the map
+		
+		var Y_point			= 36.62486791;
+		var X_point			= 127.4578743;
+		var zoomLevel		= 18;
+		var markerTitle		= "대구광역시";	
+		var markerMaxWidth	= 300;
+		
+		//contents of the information box
+		var contentString	= '<div>' +
+			'<h2>현재위치</h2>'+
+			'<p>차량 현재 위치 입니다.</p>' +
+
+			'</div>';
+				
+		var myLatlng = new google.maps.LatLng(Y_point, X_point);
+		
+		//Setting MAP
+		var mapOptions = {
+							zoom: zoomLevel,
+							center: myLatlng,
+							mapTypeId: google.maps.MapTypeId.ROADMAP
+						}
+		
+		var map = new google.maps.Map(document.getElementById('map_ma'), mapOptions);
+		
+		
+		function mark(){
+			deleteMarkers();
+			Y_point = nowPoint_lat;
+			X_point = nowPoint_lng;
+			
+			var myLatlng1 = new google.maps.LatLng(Y_point, X_point);
+			var marker = new google.maps.Marker({
+				position: myLatlng1,
+				map: map,
+				title: markerTitle
+			});
+			var infowindow = new google.maps.InfoWindow({
+				content: contentString,
+				maxWizzzdth: markerMaxWidth
+			});
+			google.maps.event.addListener(marker, 'click', function() {
+			infowindow.open(map, marker);
+			});
+			markers.push(marker);
+			timerID2 = setTimeout("mark()",2000);
+			
+		}
+		
+		function setMapOnAll(map) {
+			for (let i = 0; i < markers.length; i++) {
+				markers[i].setMap(map);
+			}
+		  }
+
+		  // Removes the markers from the map, but keeps them in the array.
+		  function clearMarkers() {
+			setMapOnAll(null);
+		  }
+
+		  // Deletes all markers in the array by removing references to them.
+		  function deleteMarkers() {
+			clearMarkers();
+			markers = [];
+		  }
+		
+		$(document).ready(function () {
+			$('#execute').on('click',function(e){
+				e.preventDefault();
+				updateData();
+				mark();
+			});
+			$('#stop').on('click',function(){
+				location.reload();
+				
+			});
+		});
+
+		function updateData(){
+			$.ajax({
+			  url: "udp_server.php",
+			  type:"post",
+			  cache : false,
+			  success: function(data){ // getserver.php 파일에서 echo 결과값이 data 임
+			  data_string = data;
+			  data_split = data_string.split(',');
+			  nowPoint_lat = data_split[0];
+			  nowPoint_lng = data_split[1];
+			  $('#gps_lat').html(nowPoint_lat);
+			  $('#gps_lng').html(nowPoint_lng);
+			  }
+			});
+			timerID = setTimeout("updateData()", 2000); // 2초 단위로 갱신 처리
+		}
+		
+		</script>
+	</body>
+</html>
+		
+				
+			

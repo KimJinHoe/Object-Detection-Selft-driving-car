@@ -1,0 +1,2 @@
+bool modeA
+bool modeB

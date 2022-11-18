@@ -1,0 +1,7 @@
+<library path="lib/libNodeletSampleNodelet1">
+  <class name="communication_interface/NodeletSampleNodelet" type="nodelet_sample::NodeletSampleNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>

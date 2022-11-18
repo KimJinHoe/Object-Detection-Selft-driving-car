@@ -1,0 +1,7 @@
+<library path="lib/libNodelet_DMF_Nodelet">
+  <class name="DMF/NodeletSampleNodelet" type="nodelet_sample::NodeletSampleNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>

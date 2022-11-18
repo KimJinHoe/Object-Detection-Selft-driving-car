@@ -1,0 +1,8 @@
+prefix=/home/bnlab/catkin_ws/install
+
+Name: DMF
+Description: Description of DMF
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lDMF -lnodelet_sample -lNodelet
+Requires: message_generation roscpp rospy std_msgs
